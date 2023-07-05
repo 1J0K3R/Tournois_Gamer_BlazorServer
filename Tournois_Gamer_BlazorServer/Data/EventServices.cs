@@ -2,9 +2,9 @@
 
 public class EventServices
 {
-    private Dictionary<int, Tournament> Tournaments { get; set; }
-    private Dictionary<int, EngagementTerms> EngagementTermsDictionnary { get; set; }
-    private void GetTournament()
+    private Dictionary<int, Tournament> Tournaments { get; set; } = new ();
+    private Dictionary<int, EngagementTerms> EngagementTermsDictionnary { get; set; } = new ();
+    private Dictionary<int, Tournament> GetTournaments()
     {
         Dictionary<int, Tournament> tournaments = new()
         {
@@ -32,9 +32,9 @@ public class EventServices
             }
         };
 
-        Tournaments = tournaments;
+        return tournaments;
     }
-    private void GetEngagementTerms()
+    private Dictionary<int, EngagementTerms> GetEngagementTerms()
     {
         Dictionary<int, EngagementTerms> engagementTerms = new()
         {
@@ -129,13 +129,13 @@ public class EventServices
                 }
             }
         };
-        EngagementTermsDictionnary = engagementTerms;
+        return engagementTerms;
     }
 
     public Task<Event> GetEventAsync()
     {
-        GetTournament();
-        GetEngagementTerms();
+        Tournaments = GetTournaments();
+        EngagementTermsDictionnary = GetEngagementTerms();
 
         return Task.FromResult(new Event()
         {

@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 using MudBlazor.Services;
+
+using Tournois_Gamer_BlazorServer.Data;
 using Tournois_Gamer_BlazorServer.Data.WheaterForecast;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<EventServices>();
 
 // Add MudBlazor Services.
 builder.Services.AddMudServices();
