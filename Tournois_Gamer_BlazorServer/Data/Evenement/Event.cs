@@ -1,4 +1,4 @@
-﻿namespace Tournois_Gamer_BlazorServer.Data;
+﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement;
 
 public class Event
 {

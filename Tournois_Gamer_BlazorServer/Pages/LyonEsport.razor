@@ -1,24 +1,79 @@
 ﻿@page "/LyonEsport"
 @using System.Net.Http.Json
 @using Tournois_Gamer_BlazorServer.Data;
+@using Tournois_Gamer_BlazorServer.Data.Evenement;
 @inject EventServices eventServices
 
 <PageTitle>LyonEsport</PageTitle>
 
-<h3>LyonEsport</h3>
+
+<MudText Typo="Typo.h5">EVENEMENT « @event_.DatesString »</MudText>
+<br />
+
+<MudText Typo="Typo.h6" Class="text-decoration-underline">Dates</MudText>
+<MudText Typo="Typo.h6" > - @event_.DatesString</MudText>
+
+<br />
+
+<MudText Typo="Typo.h6" Class="text-decoration-underline" >Horaires</MudText>
+@foreach(var schedule in event_.Schedule)
+{
+    <MudText Typo="Typo.h6"> - @schedule</MudText>
+}
+<br />
+
+<MudText Typo="Typo.h6" Class="text-decoration-underline">Lieu</MudText>
+<MudText Typo="Typo.h6"> - @event_.Place</MudText>
+<br />
+
+<MudText Typo="Typo.h6" Class="text-decoration-underline">L’événement « @event_.DatesString » propose les tournois suivants :</MudText>
+@foreach (var tournament in event_.Tournaments)
+{
+    <MudText Typo="Typo.h6"> - @tournament.Name</MudText>
+}
+<br />
+<br />
+
+<MudText Typo="Typo.h6" Class="text-decoration-underline">Conditions d’engagement :</MudText>
+<br />
 
 <MudDataGrid Items="event_.EngagementTermsList.Take(event_.EngagementTermsList.Count())">
     <Columns>
-        <PropertyColumn Property="x => x.Platform" Title="Nr" />
-        <PropertyColumn Property="x => x.Sign" />
-        <PropertyColumn Property="x => x.Name" />
-        <PropertyColumn Property="x => x.Position" />
-        <PropertyColumn Property="x => x.Molar" Title="Molar mass" />
+        <PropertyColumn Property="x => GetTournamentPlatform(x.Tournament.Name, x.Platform)" Title="Tournoi" />
+        <PropertyColumn Property="x => x.TeamNbr" Title="Nombre d’équipes" />
+        <PropertyColumn Property="x => x.PlayerNbrPerTeam" Title="Joueurs / Equipe" />
+        <PropertyColumn Property="x => x.Platform" Title="Plateforme" />
+        <PropertyColumn Property="x => x.CostEntry" Title="Frais d’inscription (€)" />
+        <PropertyColumn Property="x => GetCashPrize(x.CashPrize)" Title="Cash Prize" />
     </Columns>
 </MudDataGrid>
 
 @code {
     private Event? event_;
+
+    public string GetTournamentPlatform(string tournamentName, string platform)
+    {
+        if(platform == "PC")
+        {
+            return tournamentName;
+        }
+        else
+        {
+            return string.Concat(tournamentName, " ", platform);
+        }        
+    }
+
+    /// <summary>
+    /// retourne une chaine équivalente à
+    /// "Vainqueur : 5 000 €
+    ///  Finaliste : 2 000 €"
+    /// </summary>
+    /// <param name="cashPrize"></param>
+    /// <returns></returns>
+    public string GetCashPrize(CashPrize cashPrize)
+    {
+        return string.Concat("Vainqueur : ", cashPrize.WinnersPrice, " €", Environment.NewLine, "Finaliste : ", cashPrize.FinalistPrice, " €");
+    }
 
     protected override async Task OnInitializedAsync()
     {

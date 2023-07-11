@@ -1,0 +1,45 @@
+﻿@page "/InscriptionIndividuel"
+@using System.ComponentModel.DataAnnotations;
+@using Tournois_Gamer_BlazorServer.Data.Inscription;
+
+<MudText Typo="Typo.h5">INSCRIPTION TOURNOI INDIVIDUEL</MudText>
+<br />
+
+<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+
+                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 characters"
+                    @bind-Value="model.Name" For="@(() => model.Name)" />
+
+                    <MudTextField Label="Prénom" HelperText="Max. 20 characters"
+                    @bind-Value="model.FirstName" For="@(() => model.FirstName)" />
+
+                    <MudDatePicker Label="Date de naissance " @bind-Value="model.DateBorn" For="@(() => model.DateBorn)" />
+
+                    <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 characters"
+                    @bind-Value="model.Pseudo" For="@(() => model.Pseudo)" />
+
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    Player model = new ();
+
+    private void OnValidSubmit(EditContext context)
+    {
+        model.Id = 1; // la on doit récupéré le dernier id pour l'attribuer + 1
+        Console.WriteLine("le joueur " + model.Name + " à bien été créer");
+    }
+
+}
+@*https://mudblazor.com/components/form#using-simple-fluent-validation*@

@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 using MudBlazor.Services;
-
-using Tournois_Gamer_BlazorServer.Data;
+using Tournois_Gamer_BlazorServer.Data.Evenement;
 using Tournois_Gamer_BlazorServer.Data.WheaterForecast;
 
 var builder = WebApplication.CreateBuilder(args);
