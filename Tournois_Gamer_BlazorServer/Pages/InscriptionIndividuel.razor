@@ -1,11 +1,13 @@
 ﻿@page "/InscriptionIndividuel"
 @using System.ComponentModel.DataAnnotations;
+@using Tournois_Gamer_BlazorServer.Data.Evenement;
 @using Tournois_Gamer_BlazorServer.Data.Inscription;
+@inject EventServices eventServices
 
 <MudText Typo="Typo.h5">INSCRIPTION TOURNOI INDIVIDUEL</MudText>
 <br />
 
-<EditForm Model="@model" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@player" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
@@ -13,32 +15,85 @@
                 <MudCardContent>
 
                     <MudTextField Label="Nom du joueur" HelperText="Max. 20 characters"
-                    @bind-Value="model.Name" For="@(() => model.Name)" />
+                                  @bind-Value="player.Name" />
 
                     <MudTextField Label="Prénom" HelperText="Max. 20 characters"
-                    @bind-Value="model.FirstName" For="@(() => model.FirstName)" />
+                                  @bind-Value="player.FirstName" />
 
-                    <MudDatePicker Label="Date de naissance " @bind-Value="model.DateBorn" For="@(() => model.DateBorn)" />
+                    <MudDatePicker Label="Date de naissance"
+                                   @bind-Date="player.DateBorn" />
 
                     <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 characters"
-                    @bind-Value="model.Pseudo" For="@(() => model.Pseudo)" />
+                                  @bind-Value="player.Pseudo" />
+
+                    <div class="d-flex">
+                        <MudRadioGroup T="string" Required="true" RequiredError="Tournament is required!">
+                            @foreach (var tournament in tournaments)
+                            {
+                                <MudRadio Option="@tournament.Value.Name">@tournament.Value.Name</MudRadio>
+                            }
+                        </MudRadioGroup>
+
+                        <MudRadioGroup T="string" Required="true" RequiredError="Tournament is required!">
+                            @foreach (var tournament in tournaments)
+                            {
+                                <MudRadio Option="@tournament.Value.Name">@tournament.Value.Name</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </div>
 
                 </MudCardContent>
+
                 <MudCardActions>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
                 </MudCardActions>
+
             </MudCard>
         </MudItem>
     </MudGrid>
 </EditForm>
-
+    
 @code {
-    Player model = new ();
+    private Player player = new ();
+
+    private Dictionary<int, Tournament> tournaments;
+
+    private Event? event_;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tournaments = eventServices.GetTournaments();
+        event_ = await eventServices.GetEventAsync();
+    }
+
+    // Problème sur l'affichage des tournois qui doit affiché seulement les toutnois individuel
+    //
+    //public string GetTournamentIndivdual()
+    //{
+    //    foreach (var item in event_.EngagementTermsList)
+    //    {
+    //        if
+    //        item.Tournament   
+    //    }
+    //}
 
     private void OnValidSubmit(EditContext context)
     {
-        model.Id = 1; // la on doit récupéré le dernier id pour l'attribuer + 1
-        Console.WriteLine("le joueur " + model.Name + " à bien été créer");
+        player.Id = 1; // la on doit récupéré le dernier id pour l'attribuer + 1
+
+        Inscription inscriptionPlayer = new()
+            {
+                Id = 1, // fonction getNewId() à créer qui doit récupéré le dernier id pour l'attribuer + 1
+                IsTeam = false,
+                Name = string.Concat(player.Name, " ", player.FirstName),
+                Players = new List<Player>()
+                {
+                    player
+                },
+                PlayersIdCaptain = player.Id
+                //Tournament = model.
+            };
+        // Ici on doit appeler un service qui appelle la base de données pour Intégéré notre Inscription
     }
 
 }

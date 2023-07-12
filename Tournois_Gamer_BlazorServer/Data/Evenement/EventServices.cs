@@ -6,7 +6,7 @@ public class EventServices
 {
     private Dictionary<int, Tournament> _Tournaments { get; set; } = new();
     private Dictionary<int, EngagementTerms> _EngagementTermsDictionnary { get; set; } = new();
-    private Dictionary<int, Tournament> GetTournaments()
+    public Dictionary<int, Tournament> GetTournaments()
     {
         Dictionary<int, Tournament> tournaments = new()
         {
@@ -15,21 +15,24 @@ public class EventServices
                 new Tournament()
                 {
                     Id = 0,
-                    Name = "League Of Legends"
+                    Name = "League Of Legends",
+                    IsTeam = true
                 }
             },
             {
                 1,
                 new Tournament (){
                     Id = 1,
-                    Name = "FIFA par équipe"
+                    Name = "FIFA par équipe",
+                    IsTeam = true
                 }
             },
             {
                 2,
                 new Tournament (){
                     Id = 2,
-                    Name = "FIFA individuel"
+                    Name = "FIFA individuel",
+                    IsTeam = false
                 }
             }
         };
