@@ -1,16 +1,11 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-
 using MudBlazor.Services;
 using Tournois_Gamer_BlazorServer.Data.Evenement;
-using Tournois_Gamer_BlazorServer.Data.WheaterForecast;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<EventServices>();
 
 // Add MudBlazor Services.

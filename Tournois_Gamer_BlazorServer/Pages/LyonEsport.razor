@@ -1,4 +1,4 @@
-﻿@page "/LyonEsport"
+﻿@page "/"
 @using System.Net.Http.Json
 @using Tournois_Gamer_BlazorServer.Data;
 @using Tournois_Gamer_BlazorServer.Data.Evenement;
@@ -16,7 +16,7 @@
 <br />
 
 <MudText Typo="Typo.h6" Class="text-decoration-underline" >Horaires</MudText>
-@foreach(var schedule in event_.Schedule)
+@foreach(var schedule in event_.Schedules)
 {
     <MudText Typo="Typo.h6"> - @schedule</MudText>
 }
@@ -27,7 +27,7 @@
 <br />
 
 <MudText Typo="Typo.h6" Class="text-decoration-underline">L’événement « @event_.DatesString » propose les tournois suivants :</MudText>
-@foreach (var tournament in event_.Tournaments)
+@foreach (var tournament in event_.TournamentNameList)
 {
     <MudText Typo="Typo.h6"> - @tournament.Name</MudText>
 }
@@ -37,9 +37,9 @@
 <MudText Typo="Typo.h6" Class="text-decoration-underline">Conditions d’engagement :</MudText>
 <br />
 
-<MudDataGrid Items="event_.EngagementTermsList.Take(event_.EngagementTermsList.Count())">
+<MudDataGrid Items="event_.TournamentList.Take(event_.TournamentList.Count())">
     <Columns>
-        <PropertyColumn Property="x => GetTournamentPlatform(x.Tournament.Name, x.Platform)" Title="Tournoi" />
+        <PropertyColumn Property="x => GetTournamentPlatform(x.TournamentName.Name, x.Platform)" Title="Tournoi" />
         <PropertyColumn Property="x => x.TeamNbr" Title="Nombre d’équipes" />
         <PropertyColumn Property="x => x.PlayerNbrPerTeam" Title="Joueurs / Equipe" />
         <PropertyColumn Property="x => x.Platform" Title="Plateforme" />

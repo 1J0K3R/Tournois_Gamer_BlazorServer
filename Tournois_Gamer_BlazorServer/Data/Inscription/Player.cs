@@ -14,6 +14,7 @@ public class Player
     [StringLength(20, ErrorMessage = "Name length can't be more than 8.")]
     public string FirstName { get; set; }
 
+    [Required]
     public DateTime? DateBorn { get; set; }
 
     [Required]

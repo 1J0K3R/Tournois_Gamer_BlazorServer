@@ -7,37 +7,30 @@
 <MudText Typo="Typo.h5">INSCRIPTION TOURNOI INDIVIDUEL</MudText>
 <br />
 
-<EditForm Model="@player" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@inscription" OnValidSubmit="OnValidSubmit">
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
 
-                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 characters"
-                                  @bind-Value="player.Name" />
+                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 characters" 
+                    @bind-Value="inscription.Player.Name" For="@(() => inscription.Player.Name)" Immediate="true" />
 
                     <MudTextField Label="Prénom" HelperText="Max. 20 characters"
-                                  @bind-Value="player.FirstName" />
+                    @bind-Value="inscription.Player.FirstName" For="@(() => inscription.Player.FirstName)" />
 
                     <MudDatePicker Label="Date de naissance"
-                                   @bind-Date="player.DateBorn" />
+                    @bind-Date="inscription.Player.DateBorn" For="@(() => inscription.Player.DateBorn)" />
 
                     <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 characters"
-                                  @bind-Value="player.Pseudo" />
+                    @bind-Value="inscription.Player.Pseudo" For="@(() => inscription.Player.Pseudo)" />
 
                     <div class="d-flex">
-                        <MudRadioGroup T="string" Required="true" RequiredError="Tournament is required!">
-                            @foreach (var tournament in tournaments)
+                        <MudRadioGroup T="Tournament" Required="true" RequiredError="Tournament is required!" @bind-value="inscription.Tournament" For="@(() => inscription.Tournament)">
+                            @foreach (var tournament in tournamentList)
                             {
-                                <MudRadio Option="@tournament.Value.Name">@tournament.Value.Name</MudRadio>
-                            }
-                        </MudRadioGroup>
-
-                        <MudRadioGroup T="string" Required="true" RequiredError="Tournament is required!">
-                            @foreach (var tournament in tournaments)
-                            {
-                                <MudRadio Option="@tournament.Value.Name">@tournament.Value.Name</MudRadio>
+                                <MudRadio Option="@tournament.Value" >@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
                             }
                         </MudRadioGroup>
                     </div>
@@ -54,47 +47,34 @@
 </EditForm>
     
 @code {
-    private Player player = new ();
+    private InscriptionIndividual inscription = new ();
+    [Required]
+    private Player player = new();
 
-    private Dictionary<int, Tournament> tournaments;
+    private Dictionary<int, Tournament> tournamentList = new();
 
     private Event? event_;
 
     protected override async Task OnInitializedAsync()
     {
-        tournaments = eventServices.GetTournaments();
         event_ = await eventServices.GetEventAsync();
-    }
 
-    // Problème sur l'affichage des tournois qui doit affiché seulement les toutnois individuel
-    //
-    //public string GetTournamentIndivdual()
-    //{
-    //    foreach (var item in event_.EngagementTermsList)
-    //    {
-    //        if
-    //        item.Tournament   
-    //    }
-    //}
+        foreach (Tournament tournament in event_.TournamentList)
+        {
+            if (tournament.IsTeam is false)
+            {
+                tournamentList.Add(tournament.Id, tournament);
+            }
+        }
+        inscription.Player = player;
+    }
 
     private void OnValidSubmit(EditContext context)
     {
-        player.Id = 1; // la on doit récupéré le dernier id pour l'attribuer + 1
+        inscription.Id = 1;
+        inscription.Name = string.Concat(inscription.Player.Name, " ", inscription.Player.FirstName);
 
-        Inscription inscriptionPlayer = new()
-            {
-                Id = 1, // fonction getNewId() à créer qui doit récupéré le dernier id pour l'attribuer + 1
-                IsTeam = false,
-                Name = string.Concat(player.Name, " ", player.FirstName),
-                Players = new List<Player>()
-                {
-                    player
-                },
-                PlayersIdCaptain = player.Id
-                //Tournament = model.
-            };
         // Ici on doit appeler un service qui appelle la base de données pour Intégéré notre Inscription
     }
-
 }
 @*https://mudblazor.com/components/form#using-simple-fluent-validation*@
