@@ -5,7 +5,7 @@ namespace Tournois_Gamer_BlazorServer.Data.Inscription;
 
 public class InscriptionTeamDto
 {
-    public int InscriptionTeamDtoId { get; set; }
+    public int Id { get; set; }
 
     [Required]
     public string Name { get; set; }

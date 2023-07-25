@@ -5,7 +5,7 @@ public class TournamentNameDto
     /// <summary>
     /// Id du nom du tournois 
     /// </summary>
-    public int TournamentNameId { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Nom du tournois

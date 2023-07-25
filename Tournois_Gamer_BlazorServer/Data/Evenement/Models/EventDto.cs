@@ -5,7 +5,7 @@ public class EventDto
     /// <summary>
     /// Identifiant de l'evenement /!\ Devrait surement ne pas apparaitre ici mais etre dans la base de données auto incrémenter. /!\
     /// </summary>
-    public int EventId { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Nom de l'evenement 

@@ -14,21 +14,21 @@ public class EventServices
                 0,
                 new TournamentNameDto()
                 {
-                    TournamentNameId = 0,
+                    Id = 0,
                     Name = "League Of Legends"
                 }
             },
             {
                 1,
                 new TournamentNameDto (){
-                    TournamentNameId = 1,
+                    Id = 1,
                     Name = "FIFA par équipe"
                 }
             },
             {
                 2,
                 new TournamentNameDto (){
-                    TournamentNameId = 2,
+                    Id = 2,
                     Name = "FIFA individuel"
                 }
             }
@@ -44,7 +44,7 @@ public class EventServices
                 0,
                 new TournamentDto()
                 {
-                    TournamentId = 0,
+                    Id = 0,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(0)!,
                     IsTeam = true,
                     TeamNbr = 32,
@@ -53,7 +53,7 @@ public class EventServices
                     CostEntry = 100,
                     CashPrize = new CashPrizeDto()
                     {
-                        CashPrizeId = 0,
+                        Id = 0,
                         WinnersPrice = 5000,
                         FinalistPrice = 2000
                     }
@@ -62,7 +62,7 @@ public class EventServices
                 1,
                 new TournamentDto()
                 {
-                    TournamentId = 1,
+                    Id = 1,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
                     IsTeam = true,
                     TeamNbr = 64,
@@ -71,7 +71,7 @@ public class EventServices
                     CostEntry = 30,
                     CashPrize = new CashPrizeDto()
                     {
-                        CashPrizeId = 1,
+                        Id = 1,
                         WinnersPrice = 3000,
                         FinalistPrice = 1500
                     }
@@ -81,7 +81,7 @@ public class EventServices
                 2,
                 new TournamentDto()
                 {
-                    TournamentId = 2,
+                    Id = 2,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
                     IsTeam = true,
                     TeamNbr = 64,
@@ -90,7 +90,7 @@ public class EventServices
                     CostEntry = 30,
                     CashPrize = new CashPrizeDto()
                     {
-                        CashPrizeId = 2,
+                        Id = 2,
                         WinnersPrice = 3000,
                         FinalistPrice = 1500
                     }
@@ -101,7 +101,7 @@ public class EventServices
                 3,
                 new TournamentDto()
                 {
-                    TournamentId = 3,
+                    Id = 3,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
                     IsTeam = false,
                     TeamNbr = 128,
@@ -110,7 +110,7 @@ public class EventServices
                     CostEntry = 15,
                     CashPrize = new CashPrizeDto()
                     {
-                        CashPrizeId = 3,
+                        Id = 3,
                         WinnersPrice = 2000,
                         FinalistPrice = 1000
                     }
@@ -120,7 +120,7 @@ public class EventServices
                 4,
                 new TournamentDto()
                 {
-                    TournamentId = 4,
+                    Id = 4,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
                     IsTeam = false,
                     TeamNbr = 128,
@@ -129,7 +129,7 @@ public class EventServices
                     CostEntry = 15,
                     CashPrize = new CashPrizeDto()
                     {
-                        CashPrizeId = 4,
+                        Id = 4,
                         WinnersPrice = 2000,
                         FinalistPrice = 1000
                     }
@@ -145,7 +145,7 @@ public class EventServices
 
         EventDto eventa = new()
         {
-            EventId = 0,
+            Id = 0,
             Name = "LYON E-SPORT",
             DatesString = "Du 15 au 17 Septembre 2023",
             Schedules = new List<string>{

@@ -86,7 +86,7 @@
         {
             if (tournament.IsTeam is true)
             {
-                tournamentList.Add(tournament.TournamentId, tournament);
+                tournamentList.Add(tournament.Id, tournament);
             }
         }
         inscription.Players = new();
@@ -113,7 +113,7 @@
     /// <param name="context"></param>
     private void OnValidSubmit(EditContext context)
     {
-        inscription.InscriptionTeamDtoId = 1;
+        inscription.Id = 1;
 
         StateHasChanged();
     }

@@ -5,7 +5,7 @@ public class CashPrizeDto
     /// <summary>
     /// Id de la récompense
     /// </summary>
-    public int CashPrizeId { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Récompense du Vainqueur

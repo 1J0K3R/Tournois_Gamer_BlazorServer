@@ -4,7 +4,7 @@ namespace Tournois_Gamer_BlazorServer.Data.Inscription;
 
 public class PlayerDto
 {
-    public int PlayerId { get; set; }
+    public int Id { get; set; }
 
     [Required(ErrorMessage = "Le nom doit être renseigné.")]
     [StringLength(20, ErrorMessage = "Le Nom ne doit pas faire plus de 20 caractères.")]
@@ -20,4 +20,7 @@ public class PlayerDto
     [Required(ErrorMessage = "Le pseudo doit être renseigné.")]
     [StringLength(20, ErrorMessage = "Le Pseudo ne doit pas faire plus de 20 caractères.")]
     public string Pseudo { get; set; }
+
+    //public int? InscriptionTeamDtoId { get; set; }
+    //public InscriptionTeamDto? InscriptionTeamDto { get; set; }
 }
