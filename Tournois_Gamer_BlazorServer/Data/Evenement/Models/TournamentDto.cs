@@ -8,9 +8,14 @@ public class TournamentDto
     public int Id { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int TournamentTypeDtoId { get; set; }
+
+    /// <summary>
     /// Nom du tournois 
     /// </summary>
-    public TournamentNameDto TournamentName { get; set; }
+    public TournamentTypeDto TournamentTypeDto { get; set; }
 
     /// <summary>
     /// 

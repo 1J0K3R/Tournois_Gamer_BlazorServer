@@ -27,7 +27,7 @@
 
                     <br />
                     <MudText Typo="Typo.h6" Class="text-decoration-underline">Tournoi choisi : </MudText>
-
+@*
                     <div class="d-flex">
                         <MudRadioGroup T="TournamentDto"
                         @bind-SelectedOption="inscription.Tournament" @bind-Value="inscription.Tournament" For="@(() => inscription.Tournament)">
@@ -36,7 +36,7 @@
                                 <MudRadio Option="@tournament.Value" >@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
                             }
                         </MudRadioGroup>
-                    </div>
+                    </div>*@
 
                 </MudCardContent>
 

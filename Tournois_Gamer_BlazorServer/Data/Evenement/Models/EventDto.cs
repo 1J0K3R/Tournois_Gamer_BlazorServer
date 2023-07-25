@@ -28,11 +28,6 @@ public class EventDto
     public string Place { get; set; }
 
     /// <summary>
-    /// Liste des noms de tournois 
-    /// </summary>
-    public List<TournamentNameDto> TournamentNameList { get; set; }
-
-    /// <summary>
     /// Liste des tournois
     /// </summary>
     public List<TournamentDto> TournamentList { get; set; }

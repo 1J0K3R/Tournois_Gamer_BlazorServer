@@ -38,7 +38,7 @@
 
 <MudDataGrid Items="event_.TournamentList.Take(event_.TournamentList.Count())">
     <Columns>
-        <PropertyColumn Property="x => GetTournamentPlatform(x.TournamentName.Name, x.Platform)" Title="Tournoi" />
+        @*<PropertyColumn Property="x => GetTournamentPlatform(x.TournamentName.Name, x.Platform)" Title="Tournoi" />*@
         <PropertyColumn Property="x => x.TeamNbr" Title="Nombre d’équipes" />
         <PropertyColumn Property="x => x.PlayerNbrPerTeam" Title="Joueurs / Equipe" />
         <PropertyColumn Property="x => x.Platform" Title="Plateforme" />

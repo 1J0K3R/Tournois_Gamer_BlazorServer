@@ -4,15 +4,15 @@ namespace Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 
 public class EventServices
 {
-    private Dictionary<int, TournamentNameDto> _TournamentNameDictionnary { get; set; } = new();
+    private Dictionary<int, TournamentTypeDto> _TournamentNameDictionnary { get; set; } = new();
     private Dictionary<int, TournamentDto> _TournamentDictionnary { get; set; } = new();
-    private Dictionary<int, TournamentNameDto> GetTournamentNameDictionnary()
+    private Dictionary<int, TournamentTypeDto> GetTournamentNameDictionnary()
     {
-        Dictionary<int, TournamentNameDto> tournaments = new()
+        Dictionary<int, TournamentTypeDto> tournaments = new()
         {
             {
                 0,
-                new TournamentNameDto()
+                new TournamentTypeDto()
                 {
                     Id = 0,
                     Name = "League Of Legends"
@@ -20,14 +20,14 @@ public class EventServices
             },
             {
                 1,
-                new TournamentNameDto (){
+                new TournamentTypeDto (){
                     Id = 1,
                     Name = "FIFA par équipe"
                 }
             },
             {
                 2,
-                new TournamentNameDto (){
+                new TournamentTypeDto (){
                     Id = 2,
                     Name = "FIFA individuel"
                 }
@@ -45,7 +45,7 @@ public class EventServices
                 new TournamentDto()
                 {
                     Id = 0,
-                    TournamentName = _TournamentNameDictionnary.GetValueOrDefault(0)!,
+                    //TournamentName = _TournamentNameDictionnary.GetValueOrDefault(0)!,
                     IsTeam = true,
                     TeamNbr = 32,
                     PlayerNbrPerTeam = 5,
@@ -63,7 +63,7 @@ public class EventServices
                 new TournamentDto()
                 {
                     Id = 1,
-                    TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
+                    //TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
                     IsTeam = true,
                     TeamNbr = 64,
                     PlayerNbrPerTeam = 2,
@@ -82,7 +82,7 @@ public class EventServices
                 new TournamentDto()
                 {
                     Id = 2,
-                    TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
+                    //TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
                     IsTeam = true,
                     TeamNbr = 64,
                     PlayerNbrPerTeam = 2,
@@ -102,7 +102,7 @@ public class EventServices
                 new TournamentDto()
                 {
                     Id = 3,
-                    TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
+                    //TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
                     IsTeam = false,
                     TeamNbr = 128,
                     PlayerNbrPerTeam = 1,
@@ -121,7 +121,7 @@ public class EventServices
                 new TournamentDto()
                 {
                     Id = 4,
-                    TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
+                    //TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
                     IsTeam = false,
                     TeamNbr = 128,
                     PlayerNbrPerTeam = 1,
@@ -154,7 +154,7 @@ public class EventServices
                 "Le 17 septembre 2023 de 10h à 18h"
             },
             Place = "Palais des Sports Gerland – Lyon 69007",
-            TournamentNameList = new List<TournamentNameDto> {
+            TournamentNameList = new List<TournamentTypeDto> {
                 _TournamentNameDictionnary.GetValueOrDefault(0)!,
                 _TournamentNameDictionnary.GetValueOrDefault(1)!,
                 _TournamentNameDictionnary.GetValueOrDefault(2)!,

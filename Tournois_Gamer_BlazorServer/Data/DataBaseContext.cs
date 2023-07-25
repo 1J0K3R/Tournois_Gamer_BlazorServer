@@ -37,10 +37,12 @@ public class DataBaseContext : DbContext
         modelBuilder.Entity<InscriptionTeamDto>()
             .HasMany(e => e.Players);
 
+        
+
         //modelBuilder.Entity<InscriptionTeamDto>()
         //    .HasOne(e => e.PlayersIdCaptain).WithOne(e => e.InscriptionTeamDto);
 
-        base.OnModelCreating(modelBuilder);
+        //base.OnModelCreating(modelBuilder);
     }
 }
 

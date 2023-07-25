@@ -1,6 +1,6 @@
 ﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 
-public class TournamentNameDto
+public class TournamentTypeDto
 {
     /// <summary>
     /// Id du nom du tournois 
@@ -15,10 +15,5 @@ public class TournamentNameDto
     /// <summary>
     /// 
     /// </summary>
-    public int EventId { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public EventDto Event { get; set; }
+    public List<TournamentDto> Tournaments { get; set; }
 }
