@@ -1,11 +1,11 @@
-﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement;
+﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 
-public class CashPrize
+public class CashPrizeDto
 {
     /// <summary>
     /// Id de la récompense
     /// </summary>
-    public int Id { get; set; }
+    public int CashPrizeId { get; set; }
 
     /// <summary>
     /// Récompense du Vainqueur

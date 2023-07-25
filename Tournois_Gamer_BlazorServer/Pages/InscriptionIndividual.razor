@@ -1,33 +1,36 @@
 ﻿@page "/InscriptionIndividuel"
-@using System.ComponentModel.DataAnnotations;
-@using Tournois_Gamer_BlazorServer.Data.Evenement;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 @using Tournois_Gamer_BlazorServer.Data.Inscription;
 @inject EventServices eventServices
 
-<MudText Typo="Typo.h5">INSCRIPTION TOURNOI INDIVIDUEL</MudText>
-<br />
-
 <EditForm Model="@inscription" OnValidSubmit="OnValidSubmit">
+    <ObjectGraphDataAnnotationsValidator />
     <DataAnnotationsValidator />
     <MudGrid>
         <MudItem xs="12" sm="7">
             <MudCard>
                 <MudCardContent>
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">INSCRIPTION TOURNOI INDIVIDUEL : </MudText>
 
-                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 characters" 
-                    @bind-Value="inscription.Player.Name" For="@(() => inscription.Player.Name)" Immediate="true" />
+                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 caractères" 
+                    @bind-Value="inscription.Player.Name" For="@(() => inscription.Player.Name)"/>
 
-                    <MudTextField Label="Prénom" HelperText="Max. 20 characters"
+                    <MudTextField Label="Prénom" HelperText="Max. 20 caractères"
                     @bind-Value="inscription.Player.FirstName" For="@(() => inscription.Player.FirstName)" />
 
                     <MudDatePicker Label="Date de naissance"
                     @bind-Date="inscription.Player.DateBorn" For="@(() => inscription.Player.DateBorn)" />
 
-                    <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 characters"
+                    <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 caractères"
                     @bind-Value="inscription.Player.Pseudo" For="@(() => inscription.Player.Pseudo)" />
 
+                    <br />
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Tournoi choisi : </MudText>
+
                     <div class="d-flex">
-                        <MudRadioGroup T="Tournament" Required="true" RequiredError="Tournament is required!" @bind-value="inscription.Tournament" For="@(() => inscription.Tournament)">
+                        <MudRadioGroup T="TournamentDto"
+                        @bind-SelectedOption="inscription.Tournament" @bind-Value="inscription.Tournament" For="@(() => inscription.Tournament)">
                             @foreach (var tournament in tournamentList)
                             {
                                 <MudRadio Option="@tournament.Value" >@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
@@ -45,36 +48,43 @@
         </MudItem>
     </MudGrid>
 </EditForm>
-    
+
 @code {
-    private InscriptionIndividual inscription = new ();
-    [Required]
-    private Player player = new();
+    private InscriptionIndividualDto inscription = new ();
 
-    private Dictionary<int, Tournament> tournamentList = new();
+    private PlayerDto player = new();
 
-    private Event? event_;
+    private Dictionary<int, TournamentDto> tournamentList = new();
 
+    private EventDto? event_;
+
+    /// <summary>
+    /// Méthode exécuté à l'initialization de la page
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
         event_ = await eventServices.GetEventAsync();
 
-        foreach (Tournament tournament in event_.TournamentList)
+        foreach (TournamentDto tournament in event_.TournamentList)
         {
             if (tournament.IsTeam is false)
             {
-                tournamentList.Add(tournament.Id, tournament);
+                tournamentList.Add(tournament.TournamentId, tournament);
             }
         }
         inscription.Player = player;
     }
 
+    /// <summary>
+    /// Méthode exécuté à la validation du formulaire
+    /// </summary>
+    /// <param name="context"></param>
     private void OnValidSubmit(EditContext context)
     {
-        inscription.Id = 1;
+        inscription.InscriptionIndividualDtoId = 1;
         inscription.Name = string.Concat(inscription.Player.Name, " ", inscription.Player.FirstName);
 
-        // Ici on doit appeler un service qui appelle la base de données pour Intégéré notre Inscription
+        StateHasChanged();
     }
 }
-@*https://mudblazor.com/components/form#using-simple-fluent-validation*@

@@ -1,16 +1,16 @@
-﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement;
+﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 
-public class Tournament
+public class TournamentDto
 {
     /// <summary>
     /// Id du tournois
     /// </summary>
-    public int Id { get; set; }
+    public int TournamentId { get; set; }
 
     /// <summary>
     /// Nom du tournois 
     /// </summary>
-    public TournamentName TournamentName { get; set; }
+    public TournamentNameDto TournamentName { get; set; }
 
     /// <summary>
     /// Nombre d'équipe 
@@ -35,7 +35,7 @@ public class Tournament
     /// <summary>
     /// Récompense 
     /// </summary>
-    public CashPrize CashPrize { get; set; }
+    public CashPrizeDto CashPrize { get; set; }
 
     /// <summary>
     /// Tournois en équipe ? Ou individuel ?

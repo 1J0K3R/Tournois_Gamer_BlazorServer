@@ -1,7 +1,6 @@
 ﻿@page "/"
-@using System.Net.Http.Json
-@using Tournois_Gamer_BlazorServer.Data;
-@using Tournois_Gamer_BlazorServer.Data.Evenement;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 @inject EventServices eventServices
 
 <PageTitle>LyonEsport</PageTitle>
@@ -49,7 +48,7 @@
 </MudDataGrid>
 
 @code {
-    private Event? event_;
+    private EventDto? event_;
 
     public string GetTournamentPlatform(string tournamentName, string platform)
     {
@@ -70,7 +69,7 @@
     /// </summary>
     /// <param name="cashPrize"></param>
     /// <returns></returns>
-    public string GetCashPrize(CashPrize cashPrize)
+    public string GetCashPrize(CashPrizeDto cashPrize)
     {
         return string.Concat("Vainqueur : ", cashPrize.WinnersPrice, " €", Environment.NewLine, "Finaliste : ", cashPrize.FinalistPrice, " €");
     }

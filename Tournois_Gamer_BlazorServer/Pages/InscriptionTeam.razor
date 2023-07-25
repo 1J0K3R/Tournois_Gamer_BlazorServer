@@ -1,0 +1,120 @@
+﻿@page "/InscriptionEquipe"
+@using System.ComponentModel.DataAnnotations;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
+@using Tournois_Gamer_BlazorServer.Data.Inscription;
+@inject EventServices eventServices
+
+<EditForm Model="@inscription" OnValidSubmit="OnValidSubmit">
+    <ObjectGraphDataAnnotationsValidator />
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">INSCRIPTION TOURNOI PAR EQUIPE : </MudText>
+
+                <br />
+
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Nom de l'équipe : </MudText>
+                    <MudTextField Label="Nom de l'équipe" HelperText="Max. 20 caractères" @bind-Value="inscription.Name" For="@(() => inscription.Name)" />
+
+                <br />
+
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Tournoi choisi : </MudText>
+                    <div class="d-flex">
+                        <MudRadioGroup T="TournamentDto"
+                        @bind-Value="inscription.Tournament" For="@(() => inscription.Tournament)" SelectedOptionChanged="CreatePlayers">
+                            @foreach (var tournament in tournamentList)
+                            {
+                                <MudRadio Option="@tournament.Value">@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </div>
+
+                <br />
+
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Composition de l'équipe : </MudText>
+                    <MudRadioGroup T="PlayerDto"
+                    @bind-Value="inscription.PlayersIdCaptain" @bind-SelectedOption="inscription.PlayersIdCaptain" For="@(() => inscription.PlayersIdCaptain)">
+                        @foreach(PlayerDto player in inscription.Players)
+                        {
+                            <div class="d-flex">
+                                <MudTextField Label="Nom du joueur" HelperText="Max. 20 caractères" @bind-Value="player.Name" For="@(() => player.Name)" />
+
+                                <MudTextField Label="Prénom" HelperText="Max. 20 caractères" @bind-Value="player.FirstName" For="@(() => player.FirstName)" />
+
+                                <MudDatePicker Label="Date de naissance" @bind-Date="player.DateBorn" For="@(() => player.DateBorn)" />
+
+                                <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 caractères" @bind-Value="player.Pseudo" For="@(() => player.Pseudo)" />
+
+                                <MudRadio Option="player">Capitaine</MudRadio>
+                            </div>
+                        }
+                    </MudRadioGroup>
+
+                <br />
+
+                </MudCardContent>
+
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    private InscriptionTeamDto inscription = new();
+    private Dictionary<int, TournamentDto> tournamentList = new();
+    private EventDto? event_;
+
+    private PlayerDto captain = new();
+
+
+    /// <summary>
+    /// Méthode exécuté à l'initialization de la page
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        event_ = await eventServices.GetEventAsync();
+
+        foreach (TournamentDto tournament in event_.TournamentList)
+        {
+            if (tournament.IsTeam is true)
+            {
+                tournamentList.Add(tournament.TournamentId, tournament);
+            }
+        }
+        inscription.Players = new();
+    }
+
+    /// <summary>
+    /// Méthode exécuté à la création des joueurs
+    /// </summary>
+    /// <param name="tournament"></param>
+    private void CreatePlayers(TournamentDto tournament)
+    {
+        inscription.Tournament = tournament;
+        inscription.Players.Clear();
+        for (int i = 0; i < tournament.PlayerNbrPerTeam; i++)
+        {
+            inscription.Players.Add(new());
+        }
+    }
+
+
+    /// <summary>
+    /// Méthode exécuté à la validation du formulaire
+    /// </summary>
+    /// <param name="context"></param>
+    private void OnValidSubmit(EditContext context)
+    {
+        inscription.InscriptionTeamDtoId = 1;
+
+        StateHasChanged();
+    }
+}

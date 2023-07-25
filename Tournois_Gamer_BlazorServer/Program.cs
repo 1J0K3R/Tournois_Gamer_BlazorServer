@@ -1,5 +1,5 @@
 using MudBlazor.Services;
-using Tournois_Gamer_BlazorServer.Data.Evenement;
+using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

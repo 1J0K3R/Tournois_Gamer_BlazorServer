@@ -1,34 +1,34 @@
-﻿
+﻿using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 
-namespace Tournois_Gamer_BlazorServer.Data.Evenement;
+namespace Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 
 public class EventServices
 {
-    private Dictionary<int, TournamentName> _TournamentNameDictionnary { get; set; } = new();
-    private Dictionary<int, Tournament> _TournamentDictionnary { get; set; } = new();
-    private Dictionary<int, TournamentName> GetTournamentNameDictionnary()
+    private Dictionary<int, TournamentNameDto> _TournamentNameDictionnary { get; set; } = new();
+    private Dictionary<int, TournamentDto> _TournamentDictionnary { get; set; } = new();
+    private Dictionary<int, TournamentNameDto> GetTournamentNameDictionnary()
     {
-        Dictionary<int, TournamentName> tournaments = new()
+        Dictionary<int, TournamentNameDto> tournaments = new()
         {
             {
                 0,
-                new TournamentName()
+                new TournamentNameDto()
                 {
-                    Id = 0,
+                    TournamentNameId = 0,
                     Name = "League Of Legends"
                 }
             },
             {
                 1,
-                new TournamentName (){
-                    Id = 1,
+                new TournamentNameDto (){
+                    TournamentNameId = 1,
                     Name = "FIFA par équipe"
                 }
             },
             {
                 2,
-                new TournamentName (){
-                    Id = 2,
+                new TournamentNameDto (){
+                    TournamentNameId = 2,
                     Name = "FIFA individuel"
                 }
             }
@@ -36,42 +36,42 @@ public class EventServices
 
         return tournaments;
     }
-    private Dictionary<int, Tournament> GetEngagementDictionnary()
+    private Dictionary<int, TournamentDto> GetEngagementDictionnary()
     {
-        Dictionary<int, Tournament> engagementTerms = new()
+        Dictionary<int, TournamentDto> engagementTerms = new()
         {
             {
                 0,
-                new Tournament()
+                new TournamentDto()
                 {
-                    Id = 0,
+                    TournamentId = 0,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(0)!,
                     IsTeam = true,
                     TeamNbr = 32,
                     PlayerNbrPerTeam = 5,
                     Platform = "PC",
                     CostEntry = 100,
-                    CashPrize = new CashPrize()
+                    CashPrize = new CashPrizeDto()
                     {
-                        Id = 0,
+                        CashPrizeId = 0,
                         WinnersPrice = 5000,
                         FinalistPrice = 2000
                     }
                 }
             },{
                 1,
-                new Tournament()
+                new TournamentDto()
                 {
-                    Id = 1,
+                    TournamentId = 1,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
                     IsTeam = true,
                     TeamNbr = 64,
                     PlayerNbrPerTeam = 2,
                     Platform = "PS5",
                     CostEntry = 30,
-                    CashPrize = new CashPrize()
+                    CashPrize = new CashPrizeDto()
                     {
-                        Id = 1,
+                        CashPrizeId = 1,
                         WinnersPrice = 3000,
                         FinalistPrice = 1500
                     }
@@ -79,18 +79,18 @@ public class EventServices
             },
             {
                 2,
-                new Tournament()
+                new TournamentDto()
                 {
-                    Id = 2,
+                    TournamentId = 2,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(1)!,
                     IsTeam = true,
                     TeamNbr = 64,
                     PlayerNbrPerTeam = 2,
                     Platform = "XBOX",
                     CostEntry = 30,
-                    CashPrize = new CashPrize()
+                    CashPrize = new CashPrizeDto()
                     {
-                        Id = 2,
+                        CashPrizeId = 2,
                         WinnersPrice = 3000,
                         FinalistPrice = 1500
                     }
@@ -99,18 +99,18 @@ public class EventServices
 
             {
                 3,
-                new Tournament()
+                new TournamentDto()
                 {
-                    Id = 3,
+                    TournamentId = 3,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
                     IsTeam = false,
                     TeamNbr = 128,
                     PlayerNbrPerTeam = 1,
                     Platform = "PS5",
                     CostEntry = 15,
-                    CashPrize = new CashPrize()
+                    CashPrize = new CashPrizeDto()
                     {
-                        Id = 3,
+                        CashPrizeId = 3,
                         WinnersPrice = 2000,
                         FinalistPrice = 1000
                     }
@@ -118,18 +118,18 @@ public class EventServices
             },
             {
                 4,
-                new Tournament()
+                new TournamentDto()
                 {
-                    Id = 4,
+                    TournamentId = 4,
                     TournamentName = _TournamentNameDictionnary.GetValueOrDefault(2)!,
                     IsTeam = false,
                     TeamNbr = 128,
                     PlayerNbrPerTeam = 1,
                     Platform = "XBOX",
                     CostEntry = 15,
-                    CashPrize = new CashPrize()
+                    CashPrize = new CashPrizeDto()
                     {
-                        Id = 4,
+                        CashPrizeId = 4,
                         WinnersPrice = 2000,
                         FinalistPrice = 1000
                     }
@@ -138,14 +138,14 @@ public class EventServices
         };
         return engagementTerms;
     }
-    public Task<Event> GetEventAsync()
+    public Task<EventDto> GetEventAsync()
     {
         _TournamentNameDictionnary = GetTournamentNameDictionnary();
         _TournamentDictionnary = GetEngagementDictionnary();
 
-        Event eventa = new()
+        EventDto eventa = new()
         {
-            Id = 0,
+            EventId = 0,
             Name = "LYON E-SPORT",
             DatesString = "Du 15 au 17 Septembre 2023",
             Schedules = new List<string>{
@@ -154,12 +154,12 @@ public class EventServices
                 "Le 17 septembre 2023 de 10h à 18h"
             },
             Place = "Palais des Sports Gerland – Lyon 69007",
-            TournamentNameList = new List<TournamentName> {
+            TournamentNameList = new List<TournamentNameDto> {
                 _TournamentNameDictionnary.GetValueOrDefault(0)!,
                 _TournamentNameDictionnary.GetValueOrDefault(1)!,
                 _TournamentNameDictionnary.GetValueOrDefault(2)!,
             },
-            TournamentList = new List<Tournament>{
+            TournamentList = new List<TournamentDto>{
                 _TournamentDictionnary.GetValueOrDefault(0)!,
                 _TournamentDictionnary.GetValueOrDefault(1)!,
                 _TournamentDictionnary.GetValueOrDefault(2)!,

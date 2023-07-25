@@ -1,11 +1,11 @@
-﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement;
+﻿namespace Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 
-public class Event
+public class EventDto
 {
     /// <summary>
     /// Identifiant de l'evenement /!\ Devrait surement ne pas apparaitre ici mais etre dans la base de données auto incrémenter. /!\
     /// </summary>
-    public int Id { get; set; }
+    public int EventId { get; set; }
 
     /// <summary>
     /// Nom de l'evenement 
@@ -30,12 +30,12 @@ public class Event
     /// <summary>
     /// Liste des noms de tournois 
     /// </summary>
-    public List<TournamentName> TournamentNameList { get; set; }
+    public List<TournamentNameDto> TournamentNameList { get; set; }
 
     /// <summary>
     /// Liste des tournois
     /// </summary>
-    public List<Tournament> TournamentList { get; set; }
+    public List<TournamentDto> TournamentList { get; set; }
 
     /// <summary>
     /// Capacité
