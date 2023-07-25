@@ -13,6 +13,16 @@ public class TournamentDto
     public TournamentNameDto TournamentName { get; set; }
 
     /// <summary>
+    /// 
+    /// </summary>
+    public int EventId { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public EventDto Event { get; set; }
+
+    /// <summary>
     /// Nombre d'équipe 
     /// </summary>
     public int TeamNbr { get; set; }

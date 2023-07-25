@@ -83,7 +83,6 @@
     private void OnValidSubmit(EditContext context)
     {
         inscription.InscriptionIndividualDtoId = 1;
-        inscription.Name = string.Concat(inscription.Player.Name, " ", inscription.Player.FirstName);
 
         StateHasChanged();
     }

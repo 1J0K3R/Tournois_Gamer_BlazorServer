@@ -11,4 +11,14 @@ public class TournamentNameDto
     /// Nom du tournois
     /// </summary>
     public string Name { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public int EventId { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public EventDto Event { get; set; }
 }

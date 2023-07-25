@@ -7,8 +7,6 @@ public class InscriptionIndividualDto
 {
     public int InscriptionIndividualDtoId { get; set; }
 
-    public string Name { get; set; }
-
     [Required(ErrorMessage = "La séléction du tournois est requise.")]
     public TournamentDto Tournament { get; set; }
 
