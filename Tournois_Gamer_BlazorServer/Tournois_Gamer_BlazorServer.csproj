@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Properties\wwwroot\css\bootstrap\bootstrap.min.css" />
+    <Content Include="Properties\wwwroot\css\bootstrap\bootstrap.min.css.map" />
+    <Content Include="Properties\wwwroot\css\open-iconic\FONT-LICENSE" />
+    <Content Include="Properties\wwwroot\css\open-iconic\font\css\open-iconic-bootstrap.min.css" />
+    <Content Include="Properties\wwwroot\css\open-iconic\font\fonts\open-iconic.eot" />
+    <Content Include="Properties\wwwroot\css\open-iconic\font\fonts\open-iconic.otf" />
+    <Content Include="Properties\wwwroot\css\open-iconic\font\fonts\open-iconic.svg" />
+    <Content Include="Properties\wwwroot\css\open-iconic\font\fonts\open-iconic.ttf" />
+    <Content Include="Properties\wwwroot\css\open-iconic\font\fonts\open-iconic.woff" />
+    <Content Include="Properties\wwwroot\css\open-iconic\ICON-LICENSE" />
+    <Content Include="Properties\wwwroot\css\open-iconic\README.md" />
+    <Content Include="Properties\wwwroot\css\site.css" />
+    <Content Include="Properties\wwwroot\favicon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
     <PackageReference Include="MudBlazor" Version="6.6.0" />
   </ItemGroup>
