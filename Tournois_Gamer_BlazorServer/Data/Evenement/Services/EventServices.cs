@@ -1,8 +1,9 @@
-﻿using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
+﻿using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
+using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 
 namespace Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 
-public class EventServices
+public class EventServices : IEventServices
 {
     private Dictionary<int, TournamentNameDto> _TournamentNameDictionnary { get; set; } = new();
     private Dictionary<int, TournamentDto> _TournamentDictionnary { get; set; } = new();
@@ -138,7 +139,7 @@ public class EventServices
         };
         return engagementTerms;
     }
-    public Task<EventDto> GetEventAsync()
+    public async Task<EventDto> GetEventAsync()
     {
         _TournamentNameDictionnary = GetTournamentNameDictionnary();
         _TournamentDictionnary = GetEngagementDictionnary();
@@ -170,6 +171,6 @@ public class EventServices
             Description = "A l’occasion de cet événement « Lyon Esport », vous remarquerez dans le tableau ci-dessus que seuls les deux premiers de chaque tournoi sont primés. Mais pour d’autres événements, l’organisateur peut décider de primer n’importe quel classement."
         };
 
-        return Task.FromResult(eventa);
+        return await Task.FromResult(eventa);
     }
 }

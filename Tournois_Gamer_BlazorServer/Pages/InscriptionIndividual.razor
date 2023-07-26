@@ -1,53 +1,66 @@
 ﻿@page "/InscriptionIndividuel"
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 @using Tournois_Gamer_BlazorServer.Data.Inscription;
-@inject EventServices eventServices
+@inject IEventServices eventServices
 
-<EditForm Model="@inscription" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@inscription" OnSubmit="OnValidSubmit">
     <ObjectGraphDataAnnotationsValidator />
     <DataAnnotationsValidator />
-    <MudGrid>
-        <MudItem xs="12" sm="7">
-            <MudCard>
-                <MudCardContent>
-                    <MudText Typo="Typo.h6" Class="text-decoration-underline">INSCRIPTION TOURNOI INDIVIDUEL : </MudText>
+    <ValidationSummary />
 
-                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 caractères" 
-                    @bind-Value="inscription.Player.Name" For="@(() => inscription.Player.Name)"/>
+    <div class="mud-grid">
+        <div class="mud-item mud-xs-12 mud-sm-7">
+            <div class="mud-card">
+                <div class="mud-card-content">
+                    <h6 class="text-decoration-underline">INSCRIPTION TOURNOI INDIVIDUEL :</h6>
 
-                    <MudTextField Label="Prénom" HelperText="Max. 20 caractères"
-                    @bind-Value="inscription.Player.FirstName" For="@(() => inscription.Player.FirstName)" />
-
-                    <MudDatePicker Label="Date de naissance"
-                    @bind-Date="inscription.Player.DateBorn" For="@(() => inscription.Player.DateBorn)" />
-
-                    <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 caractères"
-                    @bind-Value="inscription.Player.Pseudo" For="@(() => inscription.Player.Pseudo)" />
-
-                    <br />
-                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Tournoi choisi : </MudText>
-
-                    <div class="d-flex">
-                        <MudRadioGroup T="TournamentDto"
-                        @bind-SelectedOption="inscription.Tournament" @bind-Value="inscription.Tournament" For="@(() => inscription.Tournament)">
-                            @foreach (var tournament in tournamentList)
-                            {
-                                <MudRadio Option="@tournament.Value" >@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
-                            }
-                        </MudRadioGroup>
+                    <div class="form-group">
+                        <label>Nom du joueur</label>
+                        <input class="form-control" @bind-value="inscription.Player.Name" />
+                        <small class="form-text text-muted">Max. 20 caractères</small>
                     </div>
 
-                </MudCardContent>
+                    <div class="form-group">
+                        <label>Prénom</label>
+                        <input class="form-control" @bind="inscription.Player.FirstName" />
+                        <small class="form-text text-muted">Max. 20 caractères</small>
+                    </div>
 
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-                </MudCardActions>
+                    <div class="form-group">
+                        <label>Date de naissance</label>
+                        <input type="date" class="form-control" @bind="inscription.Player.DateBorn" />
+                    </div>
 
-            </MudCard>
-        </MudItem>
-    </MudGrid>
+                    <div class="form-group">
+                        <label>Pseudo du joueur</label>
+                        <input class="form-control" @bind="inscription.Player.Pseudo" />
+                        <small class="form-text text-muted">Max. 20 caractères</small>
+                    </div>
+
+                    <br />
+                    <h6 class="text-decoration-underline">Tournoi choisi :</h6>
+
+                    <div class="form-group d-flex">
+                        @foreach (var tournament in tournamentList)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" value="@tournament.Value" checked="@Equals(inscription.Tournament, tournament.Value)" @onchange="() => SetTournament(tournament.Value)" />
+                                <label class="form-check-label">@($"{tournament.Value.TournamentName.Name} {tournament.Value.Platform}")</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="mud-card-actions">
+                    <button type="submit" class="btn btn-primary ml-auto">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </EditForm>
+
 
 @code {
     private InscriptionIndividualDto inscription = new ();
@@ -57,6 +70,8 @@
     private Dictionary<int, TournamentDto> tournamentList = new();
 
     private EventDto? event_;
+
+    private string errorMessage = string.Empty;
 
     /// <summary>
     /// Méthode exécuté à l'initialization de la page
@@ -76,14 +91,27 @@
         inscription.Player = player;
     }
 
+    private void SetTournament(TournamentDto tournament)
+    {
+        inscription.Tournament = tournament;
+    }
+
     /// <summary>
     /// Méthode exécuté à la validation du formulaire
     /// </summary>
     /// <param name="context"></param>
     private void OnValidSubmit(EditContext context)
     {
-        inscription.InscriptionIndividualDtoId = 1;
+        if (context.Validate())
+        {
+            inscription.InscriptionIndividualDtoId = 1;
 
-        StateHasChanged();
+            StateHasChanged();
+        }
+        else
+        {
+            errorMessage = "Certains champs sont incorrects. Veuillez vérifier le formulaire.";
+            // Le formulaire n'est pas valide, ne rien faire ou afficher un message d'erreur supplémentaire si nécessaire
+        }
     }
 }

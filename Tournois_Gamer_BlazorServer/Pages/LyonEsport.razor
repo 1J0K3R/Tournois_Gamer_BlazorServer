@@ -1,51 +1,67 @@
 ﻿@page "/"
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
-@inject EventServices eventServices
+@inject IEventServices eventServices
 
 <PageTitle>LyonEsport</PageTitle>
 
 
-<MudText Typo="Typo.h5">EVENEMENT « @event_.DatesString »</MudText>
+<h5 >EVENEMENT « @event_.DatesString »</h5>
 <br />
 
-<MudText Typo="Typo.h6" Class="text-decoration-underline">Dates</MudText>
-<MudText Typo="Typo.h6" > - @event_.DatesString</MudText>
+<h6 Class="text-decoration-underline">Dates</h6>
+<h6> - @event_.DatesString</h6>
 
 <br />
 
-<MudText Typo="Typo.h6" Class="text-decoration-underline" >Horaires</MudText>
+<h6 class="text-decoration-underline" >Horaires</h6>
 @foreach(var schedule in event_.Schedules)
 {
-    <MudText Typo="Typo.h6"> - @schedule</MudText>
+    <h6> - @schedule</h6>
 }
 <br />
 
-<MudText Typo="Typo.h6" Class="text-decoration-underline">Lieu</MudText>
-<MudText Typo="Typo.h6"> - @event_.Place</MudText>
+<h6 class="text-decoration-underline">Lieu</h6>
+<h6> - @event_.Place</h6>
 <br />
 
-<MudText Typo="Typo.h6" Class="text-decoration-underline">L’événement « @event_.DatesString » propose les tournois suivants :</MudText>
+<h6 class="text-decoration-underline">L’événement « @event_.DatesString » propose les tournois suivants :</h6>
 @foreach (var tournament in event_.TournamentNameList)
 {
-    <MudText Typo="Typo.h6"> - @tournament.Name</MudText>
+    <h6> - @tournament.Name</h6>
 }
 <br />
 <br />
 
-<MudText Typo="Typo.h6" Class="text-decoration-underline">Conditions d’engagement :</MudText>
+<h6 class="text-decoration-underline">Conditions d’engagement :</h6>
 <br />
 
-<MudDataGrid Items="event_.TournamentList.Take(event_.TournamentList.Count())">
-    <Columns>
-        <PropertyColumn Property="x => GetTournamentPlatform(x.TournamentName.Name, x.Platform)" Title="Tournoi" />
-        <PropertyColumn Property="x => x.TeamNbr" Title="Nombre d’équipes" />
-        <PropertyColumn Property="x => x.PlayerNbrPerTeam" Title="Joueurs / Equipe" />
-        <PropertyColumn Property="x => x.Platform" Title="Plateforme" />
-        <PropertyColumn Property="x => x.CostEntry" Title="Frais d’inscription (€)" />
-        <PropertyColumn Property="x => GetCashPrize(x.CashPrize)" Title="Cash Prize" />
-    </Columns>
-</MudDataGrid>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Tournoi</th>
+            <th>Nombre d’équipes</th>
+            <th>Joueurs / Equipe</th>
+            <th>Plateforme</th>
+            <th>Frais d’inscription (€)</th>
+            <th>Cash Prize</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var forecast in event_.TournamentList)
+        {
+            <tr>
+                <td>@GetTournamentPlatform(@forecast.TournamentName.Name, @forecast.Platform)</td>
+                <td>@forecast.TeamNbr</td>
+                <td>@forecast.PlayerNbrPerTeam</td>
+                <td>@forecast.Platform</td>
+                <td>@forecast.CostEntry</td>
+                <td>@GetCashPrize(@forecast.CashPrize)</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
     private EventDto? event_;

@@ -1,4 +1,5 @@
 using MudBlazor.Services;
+using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
 using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<EventServices>();
+builder.Services.AddSingleton<IEventServices, EventServices>();
 
 // Add MudBlazor Services.
 builder.Services.AddMudServices();

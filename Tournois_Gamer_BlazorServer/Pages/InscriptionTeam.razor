@@ -1,69 +1,80 @@
 ﻿@page "/InscriptionEquipe"
 @using System.ComponentModel.DataAnnotations;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 @using Tournois_Gamer_BlazorServer.Data.Inscription;
-@inject EventServices eventServices
+@inject IEventServices eventServices
 
-<EditForm Model="@inscription" OnValidSubmit="OnValidSubmit">
+<EditForm Model="@inscription" OnSubmit="OnValidSubmit">
     <ObjectGraphDataAnnotationsValidator />
     <DataAnnotationsValidator />
-    <MudGrid>
-        <MudItem xs="12" sm="7">
-            <MudCard>
-                <MudCardContent>
-                    <MudText Typo="Typo.h6" Class="text-decoration-underline">INSCRIPTION TOURNOI PAR EQUIPE : </MudText>
+    <ValidationSummary />
+    <div class="row">
+        <div class="col-12 col-sm-7">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-decoration-underline">INSCRIPTION TOURNOI PAR EQUIPE :</h6>
 
-                <br />
+                    <br />
 
-                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Nom de l'équipe : </MudText>
-                    <MudTextField Label="Nom de l'équipe" HelperText="Max. 20 caractères" @bind-Value="inscription.Name" For="@(() => inscription.Name)" />
+                    <h6 class="text-decoration-underline">Nom de l'équipe :</h6>
+                    <InputText class="form-control" @bind-Value="inscription.Name" />
 
-                <br />
+                    <br />
 
-                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Tournoi choisi : </MudText>
+                    <h6 class="text-decoration-underline">Tournoi choisi :</h6>
                     <div class="d-flex">
-                        <MudRadioGroup T="TournamentDto"
-                        @bind-Value="inscription.Tournament" For="@(() => inscription.Tournament)" SelectedOptionChanged="CreatePlayers">
-                            @foreach (var tournament in tournamentList)
-                            {
-                                <MudRadio Option="@tournament.Value">@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
-                            }
-                        </MudRadioGroup>
-                    </div>
-
-                <br />
-
-                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Composition de l'équipe : </MudText>
-                    <MudRadioGroup T="PlayerDto"
-                    @bind-Value="inscription.PlayersIdCaptain" @bind-SelectedOption="inscription.PlayersIdCaptain" For="@(() => inscription.PlayersIdCaptain)">
-                        @foreach(PlayerDto player in inscription.Players)
+                        @foreach (var tournament in tournamentList)
                         {
-                            <div class="d-flex">
-                                <MudTextField Label="Nom du joueur" HelperText="Max. 20 caractères" @bind-Value="player.Name" For="@(() => player.Name)" />
-
-                                <MudTextField Label="Prénom" HelperText="Max. 20 caractères" @bind-Value="player.FirstName" For="@(() => player.FirstName)" />
-
-                                <MudDatePicker Label="Date de naissance" @bind-Date="player.DateBorn" For="@(() => player.DateBorn)" />
-
-                                <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 caractères" @bind-Value="player.Pseudo" For="@(() => player.Pseudo)" />
-
-                                <MudRadio Option="player">Capitaine</MudRadio>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" value="@tournament.Value" checked="@Equals(inscription.Tournament, tournament.Value)" @onchange="() => CreatePlayers(tournament.Value)" />
+                                <label class="form-check-label pr-5">@($"{tournament.Value.TournamentName.Name} {tournament.Value.Platform}")</label>
                             </div>
                         }
-                    </MudRadioGroup>
+                    </div>
 
-                <br />
+                    <br />
 
-                </MudCardContent>
+                    <h6 class="text-decoration-underline">Composition de l'équipe :</h6>
 
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
-                </MudCardActions>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>NAME</th>
+                                <th>FIRSTNAME</th>
+                                <th>DATEBORN</th>
+                                <th>PSEUDO</th>
+                                <th>CAPITAINE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            @foreach (PlayerDto player in inscription.Players)
+                            {
+                                <tr>
+                                        <td><input type="text" class="form-control" @bind="player.Name" /></td>
+                                        <td><input type="text" class="form-control" @bind="player.FirstName" /></td>
+                                        <td><input type="date" class="form-control" @bind="player.DateBorn" /></td>
+                                        <td><input type="text" class="form-control" @bind="player.Pseudo" /></td>
+                                        <td><div class="form-check">
+                                            <input type="radio" class="form-check-input" value="@player" checked="@Equals(inscription.PlayersIdCaptain, player)" @onchange="() => inscription.PlayersIdCaptain = player" />
+                                            <label class="form-check-label">Capitaine</label>
+                                        </div></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <br />
+                </div>
 
-            </MudCard>
-        </MudItem>
-    </MudGrid>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary ml-auto">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </EditForm>
 
 @code {
@@ -73,6 +84,7 @@
 
     private PlayerDto captain = new();
 
+    private string errorMessage = string.Empty;
 
     /// <summary>
     /// Méthode exécuté à l'initialization de la page
@@ -105,7 +117,7 @@
             inscription.Players.Add(new());
         }
     }
-
+    
 
     /// <summary>
     /// Méthode exécuté à la validation du formulaire
@@ -113,8 +125,16 @@
     /// <param name="context"></param>
     private void OnValidSubmit(EditContext context)
     {
-        inscription.InscriptionTeamDtoId = 1;
+        if (context.Validate())
+        {
+            inscription.InscriptionTeamDtoId = 1;
 
-        StateHasChanged();
+            StateHasChanged();
+        }
+        else
+        {
+            errorMessage = "Certains champs sont incorrects. Veuillez vérifier le formulaire.";
+            // Le formulaire n'est pas valide, ne rien faire ou afficher un message d'erreur supplémentaire si nécessaire
+        }
     }
 }

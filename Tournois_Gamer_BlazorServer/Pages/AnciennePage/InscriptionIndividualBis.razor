@@ -1,0 +1,90 @@
+﻿@page "/InscriptionIndividuel2"
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Models;
+@using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
+@using Tournois_Gamer_BlazorServer.Data.Inscription;
+@inject IEventServices eventServices
+
+<EditForm Model="@inscription" OnValidSubmit="OnValidSubmit">
+    <ObjectGraphDataAnnotationsValidator />
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">INSCRIPTION TOURNOI INDIVIDUEL : </MudText>
+
+                    <MudTextField Label="Nom du joueur" HelperText="Max. 20 caractères" 
+                    @bind-Value="inscription.Player.Name" For="@(() => inscription.Player.Name)"/>
+
+                    <MudTextField Label="Prénom" HelperText="Max. 20 caractères"
+                    @bind-Value="inscription.Player.FirstName" For="@(() => inscription.Player.FirstName)" />
+
+                    <MudDatePicker Label="Date de naissance"
+                    @bind-Date="inscription.Player.DateBorn" For="@(() => inscription.Player.DateBorn)" />
+
+                    <MudTextField Label="Pseudo du joueur" HelperText="Max. 20 caractères"
+                    @bind-Value="inscription.Player.Pseudo" For="@(() => inscription.Player.Pseudo)" />
+
+                    <br />
+                    <MudText Typo="Typo.h6" Class="text-decoration-underline">Tournoi choisi : </MudText>
+
+                    <div class="d-flex">
+                        <MudRadioGroup T="TournamentDto"
+                        @bind-SelectedOption="inscription.Tournament" @bind-Value="inscription.Tournament" For="@(() => inscription.Tournament)">
+                            @foreach (var tournament in tournamentList)
+                            {
+                                <MudRadio Option="@tournament.Value" >@tournament.Value.TournamentName.Name @tournament.Value.Platform</MudRadio>
+                            }
+                        </MudRadioGroup>
+                    </div>
+
+                </MudCardContent>
+
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+                </MudCardActions>
+
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    private InscriptionIndividualDto inscription = new ();
+
+    private PlayerDto player = new();
+
+    private Dictionary<int, TournamentDto> tournamentList = new();
+
+    private EventDto? event_;
+
+    /// <summary>
+    /// Méthode exécuté à l'initialization de la page
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        event_ = await eventServices.GetEventAsync();
+
+        foreach (TournamentDto tournament in event_.TournamentList)
+        {
+            if (tournament.IsTeam is false)
+            {
+                tournamentList.Add(tournament.TournamentId, tournament);
+            }
+        }
+        inscription.Player = player;
+    }
+
+    /// <summary>
+    /// Méthode exécuté à la validation du formulaire
+    /// </summary>
+    /// <param name="context"></param>
+    private void OnValidSubmit(EditContext context)
+    {
+        inscription.InscriptionIndividualDtoId = 1;
+
+        StateHasChanged();
+    }
+}
