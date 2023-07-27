@@ -17,6 +17,6 @@ public class InscriptionTeamDto
     [ValidateComplexType]
     public List<PlayerDto> Players { get; set; } = new();
 
-    [Required]
+    [Required(ErrorMessage = "Le capitaine n'a pas été sélectionné.")]
     public PlayerDto PlayersIdCaptain { get; set; }
 }
