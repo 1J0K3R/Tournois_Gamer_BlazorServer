@@ -5,6 +5,7 @@
 @using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 @using Tournois_Gamer_BlazorServer.Data.Inscription;
 @inject IEventServices eventServices
+@inject NavigationManager NavManager
 
 <EditForm Model="@inscription" OnSubmit="OnValidSubmit">
     <ObjectGraphDataAnnotationsValidator />
@@ -69,8 +70,9 @@
                 </div>
 
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary ml-auto">Register</button>
+                    <button type="submit" class="btn btn-primary ml-auto">Inscription</button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -84,7 +86,14 @@
 
     private PlayerDto captain = new();
 
-    private string errorMessage = string.Empty;
+    private string messageGoodInscription = string.Empty;
+
+    private void ShowMessageAndRedirect()
+    {
+        messageGoodInscription = "Votre inscription à bien été prise en compte !";
+        Thread.Sleep(2000);
+        NavManager.NavigateTo("/");
+    }
 
     /// <summary>
     /// Méthode exécuté à l'initialization de la page
@@ -117,7 +126,7 @@
             inscription.Players.Add(new());
         }
     }
-    
+
 
     /// <summary>
     /// Méthode exécuté à la validation du formulaire
@@ -128,13 +137,8 @@
         if (context.Validate())
         {
             inscription.InscriptionTeamDtoId = 1;
-
+            ShowMessageAndRedirect();
             StateHasChanged();
-        }
-        else
-        {
-            errorMessage = "Certains champs sont incorrects. Veuillez vérifier le formulaire.";
-            // Le formulaire n'est pas valide, ne rien faire ou afficher un message d'erreur supplémentaire si nécessaire
         }
     }
 }

@@ -5,7 +5,7 @@ using Tournois_Gamer_BlazorServer.Data.Evenement.Interfaces;
 using Tournois_Gamer_BlazorServer.Data.Evenement.Services;
 using Tournois_Gamer_BlazorServer.Pages;
 
-namespace Tournois_Gamer_BlazorServerTest.E2E;
+namespace Tournois_Gamer_BlazorServerTest.Bunit;
 
 public class UnitTest1 : TestContext
 {
